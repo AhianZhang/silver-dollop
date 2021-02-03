@@ -1,0 +1,56 @@
+@startuml
+
+|库存系统|
+start
+|缓存|
+:加载奖品库存;
+
+|用户|
+:开始抽奖;
+|前端|
+:动画效果;
+|网关|
+if(是否可疑) then (是)
+ |前端|
+ :未中奖;
+detach
+endif
+|后端|
+if(是否过期) then (过期)
+ |前端|
+ :过期提醒;
+detach
+|后端|
+else (否)
+:AliasMethod抽奖算法;
+endif
+:查询库存;
+|缓存|
+if(对应奖品是否有库存) then (有)
+ fork
+ :减库存;
+ fork again
+ :异步发送事件;
+ |消息队列|
+ :减库存事件;
+|库存系统|
+:扣件库存;
+detach
+|缓存|
+ fork end
+endif
+|后端|
+:封装结果;
+|前端|
+:停止动画;
+:居中弹出抽奖结果;
+detach
+|后端|
+repeat
+  :查询总库存;
+repeat while (总库存是否为0?) is (不为0)
+stop
+
+
+
+@enduml
