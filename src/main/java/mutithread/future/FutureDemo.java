@@ -5,6 +5,8 @@ import java.util.concurrent.*;
 
 /**
  * Callable 比 Runable 多个返回值，并且支持范型
+ * 使用方式：向 thread pool 提交一个 callable task，返回一个 future 对象
+ * 对于这个 future 可以设置 超时、等待、取消、判断是否完成的操作
  * @author ahianzhang
  * @version 1.0
  * @date 2/3/21 5:58 PM
