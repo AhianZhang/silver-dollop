@@ -24,16 +24,9 @@ public class FixedExecutorDemo {
         pool.execute(thread2);
         pool.execute(thread3);
         pool.execute(thread4);
-        thread5.interrupt();
         pool.execute(thread5);
         pool.execute(thread6);
         pool.execute(thread7);
-
-        if (!pool.isTerminated()){
-            pool.shutdown();
-            System.out.println("shut down");
-            Thread.sleep(1);
-        }
 
 
     }

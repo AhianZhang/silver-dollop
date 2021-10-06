@@ -6,33 +6,51 @@ package mutithread;
  * @date 2020/7/29 1:30 PM
  **/
 public class WaitNotify {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
 
-     Thread a = new Thread();
-       Thread b = new Thread();
-        a.start();
-        b.start();
+        EvenNumThread evenNumThread = new EvenNumThread();
+        OddNumThread oddNumThread = new OddNumThread();
+        evenNumThread.run();
+        oddNumThread.run();
 
     }
 
-    public static  class evenNumThread implements Runnable{
+    // 偶数
+    public  static class EvenNumThread implements Runnable {
 
         @Override
-        public void run() {
+        public synchronized void run() {
 
             for (int i = 0; i < 10; i++) {
+                if (i % 2 == 0) {
+
+                    System.out.println(i);
+                }
 
             }
 
+            try {
+                OddNumThread.class.notify();
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public static  class oddNumThread implements Runnable{
+    // 奇数
+    public static class OddNumThread implements Runnable {
 
         @Override
         public void run() {
+            for (int i = 0; i < 10; i++) {
+                if (i % 2 != 0) {
 
+                    System.out.println(i);
+                }
+            }
+            EvenNumThread.class.notify();
         }
     }
 }

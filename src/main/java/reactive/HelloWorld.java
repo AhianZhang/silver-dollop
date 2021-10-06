@@ -1,5 +1,6 @@
 package reactive;
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -12,4 +13,10 @@ public class HelloWorld {
     public Mono<String> sayHello(){
         return Mono.empty();
     }
+
+    public static void main(String[] args) {
+        Flux.just("1","2").subscribe(System.out::println);
+        Flux.error(new Exception()).subscribe(System.out::println);
+    }
+
 }
