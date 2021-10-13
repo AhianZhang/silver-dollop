@@ -1,5 +1,10 @@
 package mutithread;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * @author ahianzhang
  * @version 1.0
@@ -11,8 +16,10 @@ public class WaitNotify {
 
         EvenNumThread evenNumThread = new EvenNumThread();
         OddNumThread oddNumThread = new OddNumThread();
-        evenNumThread.run();
-        oddNumThread.run();
+        Thread threadA = new Thread(evenNumThread);
+        Thread threadB = new Thread(oddNumThread);
+        threadA.start();
+        threadB.start();
 
     }
 
@@ -31,8 +38,8 @@ public class WaitNotify {
             }
 
             try {
-                OddNumThread.class.notify();
-                this.wait();
+                OddNumThread.class.notifyAll();
+                this.wait(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -43,12 +50,21 @@ public class WaitNotify {
     public static class OddNumThread implements Runnable {
 
         @Override
-        public void run() {
+        public synchronized void run() {
+            List<String> list = new ArrayList<>();
+            List<String> collect = list.stream().collect(Collectors.toSet()).stream().collect(Collectors.toList());
+
+
             for (int i = 0; i < 10; i++) {
                 if (i % 2 != 0) {
 
                     System.out.println(i);
                 }
+            }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
             EvenNumThread.class.notify();
         }

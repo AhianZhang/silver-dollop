@@ -72,5 +72,7 @@ public class ClassLoaderDemo extends ClassLoader {
         ClassLoaderDemo myClassLoader = new ClassLoaderDemo("/Users/ahianzhang/Documents/personal/coding/basic/src/main/java/java8/ref/", "MyClassLoader");
         Class<?> aa = myClassLoader.loadClass("java8.ref.HelloClassLoader");
         System.out.println(aa.getClassLoader());
+        System.out.println(aa.getClassLoader().getParent());
+        System.out.println(aa.getClassLoader().getParent().getParent());
     }
 }
